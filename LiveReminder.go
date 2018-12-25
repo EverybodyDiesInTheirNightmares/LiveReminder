@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-var TargetUrl = "https://www.douyu.com/606118"
+var TargetUrl = "https://www.douyu.com/777"
 var choice string
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 		time.Sleep(5 * time.Second)
 		os.Exit(1)
 	} else if strings.Contains(string(body), "show_status = 1") == true {
-		fmt.Print("大司马直播中\t请输入：\ngo直接进入捞马房间\t\t任意键关闭程序\n")
+		fmt.Print("大司马直播中\t请输入：\ngo直接进入捞马房间\t\t任意字符关闭程序\n")
 		fmt.Scanf("%s", &choice)
 		switch choice {
 		case "go":
