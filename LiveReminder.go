@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"io/ioutil"
+	"net"
 	"net/http"
+	"net/smtp"
 	"os/exec"
 	"strings"
 	"time"
@@ -19,7 +21,7 @@ func main() {
 	body, _ := ioutil.ReadAll(resp.Body)
 
 	if strings.Contains(string(body), "show_status = 1") == false {
-		fmt.Print("当前直播间未开播\n5秒后退出程序")
+		fmt.Print("捞马没开播\n5秒后退出程序")
 		time.Sleep(5 * time.Second)
 	} else if strings.Contains(string(body), "show_status = 1") == true {
 		fmt.Print("大司马直播中\t请输入：\ngo直接进入捞马房间\t\t任意键关闭程序\n")
@@ -30,5 +32,24 @@ func main() {
 			_ = cmd.Run()
 		}
 
+	}
+}
+
+func SendMail() {
+	_, err := net.InterfaceAddrs()
+
+	auth := smtp.PlainAuth("", "你的邮箱账户", "SMTP授权码", "SMTP服务器地址")
+	to := []string{"收件人邮箱（你的邮箱账户）"}
+	nickname := "开播提醒"
+	user := "发件人邮箱（你的邮箱账户）"
+	subject := "LiveReminder"
+	content_type := "Content-Type: text/plain; charset=UTF-8"
+	body := "大司马已开播" + TargetUrl
+	msg := []byte("To: " + strings.Join(to, ",") + "\r\nFrom: " + nickname +
+		"<" + user + ">\r\nSubject: " + subject + "\r\n" + content_type + "\r\n\r\n" + body)
+	fmt.Print("邮件发送成功")
+	err = smtp.SendMail("SMTP服务器+非SSL协议端口号 如：smtp.qq.com:25", auth, user, to, msg)
+	if err != nil {
+		fmt.Printf("邮件发送出错: %v", err)
 	}
 }
