@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-var TargetUrl = "https://www.douyu.com/777"
+var TargetUrl = "https://www.douyu.com/606118"
 var choice string
 
 func main() {
